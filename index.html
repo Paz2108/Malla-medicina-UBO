@@ -95,13 +95,19 @@
         { id: "sns1", nombre: "Sistema Nacional de Salud I", abre: ["sns2"] },
         { id: "integ1", nombre: "Integración Clínica I", abre: ["integ2"] },
         { id: "ingles3", nombre: "Inglés III", abre: ["ingles4"] }
+      ],
+      "4": [
+        { id: "morfo3", nombre: "Morfología Integrada III", abre: ["farm_gen"] },
+        { id: "sns2", nombre: "Sistema Nacional de Salud II", abre: ["sns3"] },
+        { id: "metodo", nombre: "Metodología de la Investigación y Medicina Basada en la Evidencia", abre: ["sns3"] },
+        { id: "bases1", nombre: "Bases y Mecanismos de la Salud y Enfermedad I", abre: ["diag1", "bases2"] },
+        { id: "integ2", nombre: "Integración Clínica II", abre: ["pract1"] },
+        { id: "ingles4", nombre: "Inglés IV" }
       ]
     };
 
     const relacionesExtra = {
       "farm_gen": ["farm_clin"],
-      "morfo3": ["farm_gen"],
-      "bases1": ["diag1", "bases2"],
       "diag1": ["diag2", "med_int1"],
       "bases2": ["bases3", "med_int1"],
       "med_int1": ["med_int2"],
@@ -109,18 +115,15 @@
       "bases3": ["med_int2"],
       "metodos": ["neuro", "onco", "nutri", "gine", "orto", "fisio", "ciru", "pedi", "oft_derm", "urg", "psiq"],
       "med_int2": ["neuro", "onco", "nutri", "gine", "orto", "fisio", "ciru", "pedi", "oft_derm", "urg", "psiq"],
-      "integ2": ["pract1"],
       "pract1": ["pract2"],
       "pract2": ["pract3"],
       "pract3": ["pract4"],
       "pract4": ["pract5"],
       "pract5": ["pract6"],
-      "pract6": [],
-      "elect2": [],
-      "gest": [],
+      "sns3": ["sns4"],
+      "sns4": ["sns5"],
       "sns5": ["gest"],
       "etica": ["resp_soc"],
-      "resp_soc": [],
       "psico": ["fisio"],
       "internado1": ["internado2"],
       "internado2": ["internado3"],
@@ -152,17 +155,17 @@
 
           document.querySelectorAll('.ramo').forEach(r => r.classList.remove("habilitado"));
 
-          Object.entries(malla).forEach(([_, rs]) => {
-            rs.forEach(r => {
-              if (r.abre && r.abre.every(p => aprobados.has(p))) {
-                r.abre.forEach(id => {
-                  const sig = document.getElementById(id);
-                  if (sig && !sig.classList.contains("aprobado")) {
-                    sig.classList.add("habilitado");
-                  }
-                });
-              }
-            });
+          Object.values(malla).flat().forEach(r => {
+            if (r.abre) {
+              r.abre.forEach(id => {
+                const habilitado = document.getElementById(id);
+                if (habilitado && !habilitado.classList.contains("aprobado")) {
+                  const requisitos = Object.values(malla).flat().filter(x => x.abre?.includes(id));
+                  const cumplidos = requisitos.every(x => aprobados.has(x.id));
+                  if (cumplidos) habilitado.classList.add("habilitado");
+                }
+              });
+            }
           });
 
           Object.entries(relacionesExtra).forEach(([id, abreList]) => {
