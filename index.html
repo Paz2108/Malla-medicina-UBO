@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Malla Interactiva Medicina</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: sans-serif;
@@ -12,16 +13,18 @@
     }
     h1 {
       text-align: center;
+      margin-bottom: 20px;
     }
     .semestres {
       display: flex;
+      flex-wrap: nowrap;
       overflow-x: auto;
       gap: 20px;
-      padding: 20px;
+      padding-bottom: 20px;
     }
     .semestre {
       flex: 0 0 auto;
-      min-width: 200px;
+      min-width: 250px;
       background-color: #fff;
       border: 1px solid #ccc;
       border-radius: 10px;
@@ -29,7 +32,7 @@
     }
     .semestre h2 {
       text-align: center;
-      font-size: 18px;
+      font-size: 16px;
       margin: 10px 0;
     }
     .ramo {
@@ -51,40 +54,81 @@
     .habilitado {
       background-color: #fff9c4 !important;
     }
+    @media (max-width: 768px) {
+      .semestres {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .semestre {
+        width: 90%;
+        max-width: 350px;
+      }
+    }
   </style>
 </head>
 <body>
   <h1>Malla Curricular Interactiva - Medicina UBO</h1>
-  <div class="semestres" id="contenedorMalla">
-    <!-- Semestres se insertarán aquí -->
-  </div>
+  <div class="semestres" id="contenedorMalla"></div>
 
   <script>
     const malla = {
       "1": [
-        { id: "bio_cel", nombre: "Biología Celular y Molecular", abre: ["bioq"] },
-        { id: "fis_med", nombre: "Física Médica", abre: ["bases_salud1"] },
-        { id: "mat", nombre: "Biomatemáticas" },
-        { id: "qui", nombre: "Bases Químicas de la Medicina" },
-        { id: "hab1", nombre: "Habilidades Académicas I" }
+        { id: "bases_quim", nombre: "Bases Químicas de la Medicina", abre: ["bio_cel"] },
+        { id: "fis_med", nombre: "Física Médica", abre: ["morfo1"] },
+        { id: "biomatematicas", nombre: "Biomatemáticas", abre: ["salud_pub"] },
+        { id: "intro_med", nombre: "Introducción a la medicina e intervención básica en emergencias", abre: ["elem_clin"] },
+        { id: "ingles1", nombre: "Inglés I", abre: ["ingles2"] },
+        { id: "hab1", nombre: "Habilidades Académicas I", abre: ["hab2"] }
       ],
       "2": [
-        { id: "bioq", nombre: "Bioquímica y Genética", abre: ["bases_salud2"] },
-        { id: "bases_salud1", nombre: "Bases Salud y Enfermedad I", abre: ["bases_salud2"] },
+        { id: "bio_cel", nombre: "Biología Celular y Molecular Médica", abre: ["bioq"] },
         { id: "morfo1", nombre: "Morfología Integrada I", abre: ["morfo2"] },
-        { id: "hab2", nombre: "Habilidades Académicas II" },
-        { id: "ingles1", nombre: "Inglés I" }
+        { id: "salud_pub", nombre: "Salud Pública y Estadística aplicada a la Medicina", abre: ["metodo"] },
+        { id: "elem_clin", nombre: "Elementos Clínicos Básicos" },
+        { id: "ingles2", nombre: "Inglés II", abre: ["ingles3"] },
+        { id: "hab2", nombre: "Habilidades Académicas II" }
       ],
       "3": [
-        { id: "morfo2", nombre: "Morfología Integrada II", abre: ["morfo3"] },
-        { id: "bases_salud2", nombre: "Bases Salud y Enfermedad II", abre: ["bases_salud3"] },
-        { id: "ingles2", nombre: "Inglés II" },
-        { id: "integ1", nombre: "Integración Clínica I" }
+        { id: "bioq", nombre: "Bioquímica Médica y Genética Clínica", abre: ["farm_gen", "bases1"] },
+        { id: "morfo2", nombre: "Morfología Integrada II", abre: ["morfo3", "bases1"] },
+        { id: "elect1", nombre: "Electivo I" },
+        { id: "sns1", nombre: "Sistema Nacional de Salud I", abre: ["sns2"] },
+        { id: "integ1", nombre: "Integración Clínica I", abre: ["integ2"] },
+        { id: "ingles3", nombre: "Inglés III", abre: ["ingles4"] }
       ]
-      // Agrega más semestres siguiendo esta lógica...
+    };
+
+    const relacionesExtra = {
+      "farm_gen": ["farm_clin"],
+      "morfo3": ["farm_gen"],
+      "bases1": ["diag1", "bases2"],
+      "diag1": ["diag2", "med_int1"],
+      "bases2": ["bases3", "med_int1"],
+      "med_int1": ["med_int2"],
+      "diag2": ["metodos"],
+      "bases3": ["med_int2"],
+      "metodos": ["neuro", "onco", "nutri", "gine", "orto", "fisio", "ciru", "pedi", "oft_derm", "urg", "psiq"],
+      "med_int2": ["neuro", "onco", "nutri", "gine", "orto", "fisio", "ciru", "pedi", "oft_derm", "urg", "psiq"],
+      "integ2": ["pract1"],
+      "pract1": ["pract2"],
+      "pract2": ["pract3"],
+      "pract3": ["pract4"],
+      "pract4": ["pract5"],
+      "pract5": ["pract6"],
+      "pract6": [],
+      "elect2": [],
+      "gest": [],
+      "sns5": ["gest"],
+      "etica": ["resp_soc"],
+      "resp_soc": [],
+      "psico": ["fisio"],
+      "internado1": ["internado2"],
+      "internado2": ["internado3"],
+      "internado3": ["internado4"]
     };
 
     const contenedor = document.getElementById("contenedorMalla");
+    const aprobados = new Set();
 
     Object.entries(malla).forEach(([semestre, ramos]) => {
       const col = document.createElement("div");
@@ -96,17 +140,43 @@
         div.className = "ramo";
         div.id = ramo.id;
         div.textContent = ramo.nombre;
+
         div.addEventListener("click", () => {
           div.classList.toggle("aprobado");
-          if (ramo.abre) {
-            ramo.abre.forEach(id => {
-              const siguiente = document.getElementById(id);
-              if (siguiente && !siguiente.classList.contains("aprobado")) {
-                siguiente.classList.add("habilitado");
+          const estaAprobado = div.classList.contains("aprobado");
+          if (estaAprobado) {
+            aprobados.add(ramo.id);
+          } else {
+            aprobados.delete(ramo.id);
+          }
+
+          document.querySelectorAll('.ramo').forEach(r => r.classList.remove("habilitado"));
+
+          Object.entries(malla).forEach(([_, rs]) => {
+            rs.forEach(r => {
+              if (r.abre && r.abre.every(p => aprobados.has(p))) {
+                r.abre.forEach(id => {
+                  const sig = document.getElementById(id);
+                  if (sig && !sig.classList.contains("aprobado")) {
+                    sig.classList.add("habilitado");
+                  }
+                });
               }
             });
-          }
+          });
+
+          Object.entries(relacionesExtra).forEach(([id, abreList]) => {
+            if (aprobados.has(id)) {
+              abreList.forEach(a => {
+                const sig = document.getElementById(a);
+                if (sig && !sig.classList.contains("aprobado")) {
+                  sig.classList.add("habilitado");
+                }
+              });
+            }
+          });
         });
+
         col.appendChild(div);
       });
 
