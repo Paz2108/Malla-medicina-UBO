@@ -18,6 +18,14 @@ const malla = {
     { id: "ingles2", nombre: "Inglés II", abre: ["ingles3"] },
     { id: "hab2", nombre: "Habilidades Académicas II" }
   ],
+  "3": [
+    { id: "bio_cel", nombre: "Biología Celular y Molecular Médica", abre: ["bioq"] },
+    { id: "morfo1", nombre: "Morfología Integrada I", abre: ["morfo2"] },
+    { id: "salud_pub", nombre: "Salud Pública y Estadística aplicada a la Medicina", abre: ["metodo"] },
+    { id: "elem_clin", nombre: "Elementos Clínicos Básicos" },
+    { id: "ingles2", nombre: "Inglés II", abre: ["ingles3"] },
+    { id: "hab2", nombre: "Habilidades Académicas II" }
+  ],
   // ... continúan los semestres 3 al 14
 };
 
