@@ -3,29 +3,7 @@ body {
   background-color: #f8f9fa;
   text-align: center;
 }
-
-.malla {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin: 20px;
-}
-
-.ramo {
-  background-color: #e0f7fa;
-  padding: 15px;
-  border-radius: 8px;
-  width: 250px;
-  cursor: pointer;
-  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-}
-
-.ramo:hover {
-  background-color: #b2ebf2;
-}
-
-.oculto {
-  display: none;
-}
+.semestres { /* … */ }
+.ramo { /* … */ }
+.aprobado { /* … */ }
+.habilitado { /* … */ }
