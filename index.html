@@ -2,23 +2,116 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Malla Medicina</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Malla Interactiva Medicina</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .semestres {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 20px;
+    }
+    .semestre {
+      flex: 0 0 auto;
+      min-width: 200px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .semestre h2 {
+      text-align: center;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .ramo {
+      background-color: #e0f7fa;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .ramo:hover {
+      background-color: #b2ebf2;
+    }
+    .aprobado {
+      text-decoration: line-through;
+      background-color: #dcedc8 !important;
+    }
+    .habilitado {
+      background-color: #fff9c4 !important;
+    }
+  </style>
 </head>
 <body>
-  <h1>Malla Curricular Medicina</h1>
-  <div class="malla">
-
-    <div class="ramo" data-siguiente="ramo2" id="ramo1">
-      Biología Celular y Molecular Médica
-    </div>
-
-    <div class="ramo oculto" id="ramo2">
-      Bioquímica Médica y Genética Clínica
-    </div>
-
+  <h1>Malla Curricular Interactiva - Medicina UBO</h1>
+  <div class="semestres" id="contenedorMalla">
+    <!-- Semestres se insertarán aquí -->
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const malla = {
+      "1": [
+        { id: "bio_cel", nombre: "Biología Celular y Molecular", abre: ["bioq"] },
+        { id: "fis_med", nombre: "Física Médica", abre: ["bases_salud1"] },
+        { id: "mat", nombre: "Biomatemáticas" },
+        { id: "qui", nombre: "Bases Químicas de la Medicina" },
+        { id: "hab1", nombre: "Habilidades Académicas I" }
+      ],
+      "2": [
+        { id: "bioq", nombre: "Bioquímica y Genética", abre: ["bases_salud2"] },
+        { id: "bases_salud1", nombre: "Bases Salud y Enfermedad I", abre: ["bases_salud2"] },
+        { id: "morfo1", nombre: "Morfología Integrada I", abre: ["morfo2"] },
+        { id: "hab2", nombre: "Habilidades Académicas II" },
+        { id: "ingles1", nombre: "Inglés I" }
+      ],
+      "3": [
+        { id: "morfo2", nombre: "Morfología Integrada II", abre: ["morfo3"] },
+        { id: "bases_salud2", nombre: "Bases Salud y Enfermedad II", abre: ["bases_salud3"] },
+        { id: "ingles2", nombre: "Inglés II" },
+        { id: "integ1", nombre: "Integración Clínica I" }
+      ]
+      // Agrega más semestres siguiendo esta lógica...
+    };
+
+    const contenedor = document.getElementById("contenedorMalla");
+
+    Object.entries(malla).forEach(([semestre, ramos]) => {
+      const col = document.createElement("div");
+      col.className = "semestre";
+      col.innerHTML = `<h2>${semestre}º semestre</h2>`;
+
+      ramos.forEach(ramo => {
+        const div = document.createElement("div");
+        div.className = "ramo";
+        div.id = ramo.id;
+        div.textContent = ramo.nombre;
+        div.addEventListener("click", () => {
+          div.classList.toggle("aprobado");
+          if (ramo.abre) {
+            ramo.abre.forEach(id => {
+              const siguiente = document.getElementById(id);
+              if (siguiente && !siguiente.classList.contains("aprobado")) {
+                siguiente.classList.add("habilitado");
+              }
+            });
+          }
+        });
+        col.appendChild(div);
+      });
+
+      contenedor.appendChild(col);
+    });
+  </script>
 </body>
 </html>
