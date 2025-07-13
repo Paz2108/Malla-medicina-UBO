@@ -47,3 +47,58 @@ const relacionesExtra = {
 
 // Resto del script: generación DOM, manejo de clics, iluminación, etc.
 // Esto se copia igual que el bloque JavaScript interno que usábamos antes
+const contenedor = document.getElementById("contenedorMalla");
+const aprobados = new Set();
+
+Object.entries(malla).forEach(([semestre, ramos]) => {
+  const col = document.createElement("div");
+  col.className = "semestre";
+  col.innerHTML = `<h2>${semestre}º semestre</h2>`;
+
+  ramos.forEach(ramo => {
+    const div = document.createElement("div");
+    div.className = "ramo";
+    div.id = ramo.id;
+    div.textContent = ramo.nombre;
+
+    div.addEventListener("click", () => {
+      div.classList.toggle("aprobado");
+      const estaAprobado = div.classList.contains("aprobado");
+      if (estaAprobado) {
+        aprobados.add(ramo.id);
+      } else {
+        aprobados.delete(ramo.id);
+      }
+
+      document.querySelectorAll('.ramo').forEach(r => r.classList.remove("habilitado"));
+
+      Object.values(malla).flat().forEach(r => {
+        if (r.abre) {
+          r.abre.forEach(id => {
+            const habilitado = document.getElementById(id);
+            if (habilitado && !habilitado.classList.contains("aprobado")) {
+              const requisitos = Object.values(malla).flat().filter(x => x.abre?.includes(id));
+              const cumplidos = requisitos.every(x => aprobados.has(x.id));
+              if (cumplidos) habilitado.classList.add("habilitado");
+            }
+          });
+        }
+      });
+
+      Object.entries(relacionesExtra).forEach(([id, abreList]) => {
+        if (aprobados.has(id)) {
+          abreList.forEach(a => {
+            const sig = document.getElementById(a);
+            if (sig && !sig.classList.contains("aprobado")) {
+              sig.classList.add("habilitado");
+            }
+          });
+        }
+      });
+    });
+
+    col.appendChild(div);
+  });
+
+  contenedor.appendChild(col);
+});
