@@ -2,208 +2,280 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
   <title>Malla Curricular Medicina UBO</title>
-<style>
-  body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #f8f4f9;
-  }
-
-  h1 {
-    text-align: center;
-    color: #5e317c;
-    padding: 20px 0;
-  }
-
-  /* ----- GRID GENERAL (semestres) ----- */
-  #malla {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-    padding: 0 20px 40px;
-  }
-
-  /* ----- CADA SEMESTRE ----- */
-  .semester-card {
-    background: #fff;
-    border: 2px solid #c8a2c8;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    padding: 12px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  }
-  .semester-card h3 {
-    margin: 0 0 10px;
-    text-align: center;
-    color: #5e317c;
-    font-size: 1.1em;
-  }
-
-  /* ----- LISTA DE CURSOS (siempre vertical) ----- */
-  .courses {
-    display: flex;
-    flex-direction: column; /* apila de arriba abajo */
-    gap: 8px;
-  }
-  .course {
-    padding: 8px;
-    border-radius: 6px;
-    text-align: center;
-    font-size: 0.9em;
-    cursor: pointer;
-    word-break: break-word;
-    white-space: normal;
-    transition: opacity 0.2s, background-color 0.2s, text-decoration 0.2s;
-  }
-
-  /* ----- ESTADOS ----- */
-  .course.locked   { opacity: 0.3; cursor: default; }
-  .course.passed   { text-decoration: line-through; opacity: 0.6; }
-  .course.unlocked { opacity: 1; }
-
-  /* ----- PALETA PASTEL POR SEMESTRE ----- */
-  .semester-card:nth-child(1)  .course { background: #ffd7e9; }
-  .semester-card:nth-child(2)  .course { background: #ffe4f0; }
-  .semester-card:nth-child(3)  .course { background: #fdeff8; }
-  .semester-card:nth-child(4)  .course { background: #f8e0f7; }
-  .semester-card:nth-child(5)  .course { background: #f4daf2; }
-  .semester-card:nth-child(6)  .course { background: #edd1ee; }
-  .semester-card:nth-child(7)  .course { background: #e7caea; }
-  .semester-card:nth-child(8)  .course { background: #e1c4e6; }
-  .semester-card:nth-child(9)  .course { background: #d9b5e0; }
-  .semester-card:nth-child(10) .course { background: #d0a6db; }
-  .semester-card:nth-child(11) .course { background: #c89cd8; }
-  .semester-card:nth-child(12) .course { background: #c294d5; }
-  .semester-card:nth-child(13) .course { background: #b788d1; }
-  .semester-card:nth-child(14) .course { background: #ad7acb; }
-
-  /* ----- RESPONSIVE MÓVIL ----- */
-  @media (max-width: 600px) {
-    #malla {
-      grid-template-columns: 1fr;
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #f8f4f9;
     }
-  }
-</style>
+    h1 {
+      text-align: center;
+      color: #5e317c;
+      padding: 20px 0;
+    }
+    /* ----- GRID GENERAL (semestres) ----- */
+    #malla {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      padding: 0 20px 40px;
+    }
+    /* ----- CADA SEMESTRE ----- */
+    .semester-card {
+      background: #fff;
+      border: 2px solid #c8a2c8;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .semester-card h3 {
+      margin: 0 0 10px;
+      text-align: center;
+      color: #5e317c;
+      font-size: 1.1em;
+    }
+    /* ----- LISTA DE CURSOS (siempre vertical) ----- */
+    .courses {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .course {
+      padding: 8px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 0.9em;
+      cursor: pointer;
+      word-break: break-word;
+      white-space: normal;
+      transition: opacity 0.2s, background-color 0.2s, text-decoration 0.2s;
+    }
+    /* ----- ESTADOS ----- */
+    .course.locked   { opacity: 0.3; cursor: default; }
+    .course.passed   { text-decoration: line-through; opacity: 0.6; }
+    .course.unlocked { opacity: 1; }
+    /* ----- PALETA PASTEL POR SEMESTRE ----- */
+    .semester-card:nth-child(1)  .course { background: #ffd7e9; }
+    .semester-card:nth-child(2)  .course { background: #ffe4f0; }
+    .semester-card:nth-child(3)  .course { background: #fdeff8; }
+    .semester-card:nth-child(4)  .course { background: #f8e0f7; }
+    .semester-card:nth-child(5)  .course { background: #f4daf2; }
+    .semester-card:nth-child(6)  .course { background: #edd1ee; }
+    .semester-card:nth-child(7)  .course { background: #e7caea; }
+    .semester-card:nth-child(8)  .course { background: #e1c4e6; }
+    .semester-card:nth-child(9)  .course { background: #d9b5e0; }
+    .semester-card:nth-child(10) .course { background: #d0a6db; }
+    .semester-card:nth-child(11) .course { background: #c89cd8; }
+    .semester-card:nth-child(12) .course { background: #c294d5; }
+    .semester-card:nth-child(13) .course { background: #b788d1; }
+    .semester-card:nth-child(14) .course { background: #ad7acb; }
+    /* ----- RESPONSIVE MÓVIL ----- */
+    @media (max-width: 600px) {
+      #malla {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <h1>Malla Curricular Medicina UBO</h1>
   <div id="malla"></div>
   <script>
     const malla = [
-      { semestre: 1, cursos: [
-        { name: 'Bases Químicas de la Medicina', prereqs: [] },
-        { name: 'Física Médica', prereqs: [] },
-        { name: 'Biomatemáticas', prereqs: [] },
-        { name: 'Introducción a la medicina e intervención básica en emergencias', prereqs: [] },
-        { name: 'Inglés I', prereqs: [] },
-        { name: 'Habilidades académicas I', prereqs: [] }
-      ]},
-      { semestre: 2, cursos: [
-        { name: 'Biología celular y molecular médica', prereqs: ['Bases Químicas de la Medicina'] },
-        { name: 'Morfología Integrada I', prereqs: ['Física Médica'] },
-        { name: 'Salud pública y estadística aplicada a la medicina', prereqs: ['Biomatemáticas'] },
-        { name: 'Elementos clínicos básicos', prereqs: ['Introducción a la medicina e intervención básica en emergencias'] },
-        { name: 'Inglés II', prereqs: ['Inglés I'] },
-        { name: 'Habilidades académicas II', prereqs: ['Habilidades académicas I'] }
-      ]},
-      { semestre: 3, cursos: [
-        { name: 'Bioquímica médica y genética clínica', prereqs: ['Biología celular y molecular médica'] },
-        { name: 'Morfología integrada II', prereqs: ['Morfología Integrada I'] },
-        { name: 'Electivo I', prereqs: [] },
-        { name: 'Sistema nacional de salud I', prereqs: [] },
-        { name: 'Integración clínica I', prereqs: ['Elementos clínicos básicos'] },
-        { name: 'Inglés III', prereqs: ['Inglés II'] }
-      ]},
-      { semestre: 4, cursos: [
-        { name: 'Morfología integrada III', prereqs: ['Morfología integrada II'] },
-        { name: 'Sistema nacional de salud II', prereqs: ['Sistema nacional de salud I'] },
-        { name: 'Metodología de la investigación y medicina basada en la evidencia', prereqs: ['Salud pública y estadística aplicada a la medicina'] },
-        { name: 'Bases y mecanismos de la salud y enfermedad I', prereqs: ['Bioquímica médica y genética clínica','Morfología integrada II'] },
-        { name: 'Integración clínica II', prereqs: ['Integración clínica I'] },
-        { name: 'Inglés IV', prereqs: ['Inglés III'] }
-      ]},
-      { semestre: 5, cursos: [
-        { name: 'Farmacología general', prereqs: ['Morfología integrada III'] },
-        { name: 'Sistema nacional de salud III', prereqs: ['Sistema nacional de salud II','Metodología de la investigación y medicina basada en la evidencia'] },
-        { name: 'Diagnóstico clínico I', prereqs: ['Bases y mecanismos de la salud y enfermedad I'] },
-        { name: 'Bases y mecanismos de la salud y enfermedad II', prereqs: ['Bases y mecanismos de la salud y enfermedad I'] },
-        { name: 'Práctica integrada en medicina I', prereqs: ['Integración clínica II'] },
-        { name: 'Ética y ciudadanía', prereqs: [] }
-      ]},
-      { semestre: 6, cursos: [
-        { name: 'Farmacología clínica', prereqs: ['Farmacología general'] },
-        { name: 'Sistema nacional de salud IV', prereqs: ['Sistema nacional de salud III'] },
-        { name: 'Diagnóstico clínico II', prereqs: ['Diagnóstico clínico I'] },
-        { name: 'Métodos diagnósticos', prereqs: ['Diagnóstico clínico II'] },
-        { name: 'Bases y mecanismos de la salud y enfermedad III', prereqs: ['Bases y mecanismos de la salud y enfermedad II'] },
-        { name: 'Medicina interna I', prereqs: ['Diagnóstico clínico I','Bases y mecanismos de la salud y enfermedad II'] },
-        { name: 'Práctica integrada en medicina II', prereqs: ['Práctica integrada en medicina I'] }
-      ]},
-      { semestre: 7, cursos: [
-        { name: 'Bioética clínica y antropología médica', prereqs: [] },
-        { name: 'Sistema nacional de salud V', prereqs: ['Sistema nacional de salud IV'] },
-        { name: 'Medicina legal', prereqs: [] },
-        { name: 'Medicina interna II', prereqs: ['Medicina interna I','Bases y mecanismos de la salud y enfermedad III'] },
-        { name: 'Práctica integrada en medicina III', prereqs: ['Práctica integrada en medicina II'] }
-      ]},
-      { semestre: 8, cursos: [
-        { name: 'Oncología', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Nutrición', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Psicología', prereqs: [] },
-        { name: 'Neurología', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Práctica integrada en medicina IV', prereqs: ['Práctica integrada en medicina III'] },
-        { name: 'Responsabilidad social universitaria', prereqs: ['Ética y ciudadanía'] }
-      ]},
-      { semestre: 9, cursos: [
-        { name: 'Gestión', prereqs: ['Sistema nacional de salud V'] },
-        { name: 'Ginecología y obstetricia', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Ortopedia y traumatología', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Fisiatría', prereqs: ['Psicología','Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Cirugía', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Práctica integrada en medicina V', prereqs: ['Práctica integrada en medicina IV'] }
-      ]},
-      { semestre: 10, cursos: [
-        { name: 'Pediatría', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Oftalmología/Otorrinolaringología/Dermatología', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Medicina de urgencias', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Psiquiatría', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
-        { name: 'Práctica integrada en medicina VI', prereqs: ['Práctica integrada en medicina V'] },
-        { name: 'Electivo II', prereqs: [] }
-      ]},
-      { semestre: 11, cursos: [
-        { name: 'Internado I', prereqs: ['Pediatría','Oftalmología/Otorrinolaringología/Dermatología','Medicina de urgencias','Psiquiatría','Práctica integrada en medicina VI','Electivo II'] }
-      ]},
-      { semestre: 12, cursos: [
-        { name: 'Internado II', prereqs: ['Internado I'] }
-      ]},
-      { semestre: 13, cursos: [
-        { name: 'Internado III', prereqs: ['Internado II'] }
-      ]},
-      { semestre: 14, cursos: [
-        { name: 'Internado IV', prereqs: ['Internado III'] }
-      ]}
+      {
+        semestre: 1,
+        cursos: [
+          { name: 'Bases Químicas de la Medicina', prereqs: [] },
+          { name: 'Física Médica', prereqs: [] },
+          { name: 'Biomatemáticas', prereqs: [] },
+          { name: 'Introducción a la medicina e intervención básica en emergencias', prereqs: [] },
+          { name: 'Inglés I', prereqs: [] },
+          { name: 'Habilidades académicas I', prereqs: [] }
+        ]
+      },
+      {
+        semestre: 2,
+        cursos: [
+          { name: 'Biología celular y molecular médica', prereqs: ['Bases Químicas de la Medicina'] },
+          { name: 'Morfología Integrada I', prereqs: ['Física Médica'] },
+          { name: 'Salud pública y estadística aplicada a la medicina', prereqs: ['Biomatemáticas'] },
+          { name: 'Elementos clínicos básicos', prereqs: [] },
+          { name: 'Inglés II', prereqs: ['Inglés I'] },
+          { name: 'Habilidades académicas II', prereqs: ['Habilidades académicas I'] }
+        ]
+      },
+      {
+        semestre: 3,
+        cursos: [
+          { name: 'Bioquímica médica y genética clínica', prereqs: ['Biología celular y molecular médica'] },
+          { name: 'Morfología integrada II', prereqs: ['Morfología Integrada I'] },
+          { name: 'Electivo I', prereqs: [] },
+          { name: 'Sistema nacional de salud I', prereqs: [] },
+          { name: 'Integración clínica I', prereqs: ['Elementos clínicos básicos'] },
+          { name: 'Inglés III', prereqs: ['Inglés II'] }
+        ]
+      },
+      {
+        semestre: 4,
+        cursos: [
+          { name: 'Morfo­logía integrada III', prereqs: ['Morfología integrada II'] },
+          { name: 'Sistema nacional de salud II', prereqs: ['Sistema nacional de salud I'] },
+          { name: 'Metodología de la investigación y medicina basada en la evidencia', prereqs: ['Salud pública y estadística aplicada a la medicina'] },
+          { name: 'Bases y mecanismos de la salud y enfermedad I', prereqs: ['Bioquímica médica y genética clínica','Morfología integrada II'] },
+          { name: 'Integración clínica II', prereqs: ['Integración clínica I'] },
+          { name: 'Inglés IV', prereqs: ['Inglés III'] }
+        ]
+      },
+      {
+        semestre: 5,
+        cursos: [
+          { name: 'Farmacología general', prereqs: ['Morfología integrada III'] },
+          { name: 'Sistema nacional de salud III', prereqs: ['Sistema nacional de salud II','Metodología de la investigación y medicina basada en la evidencia'] },
+          { name: 'Diagnóstico clínico I', prereqs: ['Bases y mecanismos de la salud y enfermedad I'] },
+          { name: 'Bases y mecanismos de la salud y enfermedad II', prereqs: ['Bases y mecanismos de la salud y enfermedad I'] },
+          { name: 'Práctica integrada en medicina I', prereqs: ['Integración clínica II'] },
+          { name: 'Ética y ciudadanía', prereqs: [] }
+        ]
+      },
+      {
+        semestre: 6,
+        cursos: [
+          { name: 'Farmacología clínica', prereqs: ['Farmacología general'] },
+          { name: 'Sistema nacional de salud IV', prereqs: ['Sistema nacional de salud III'] },
+          { name: 'Diagnóstico clínico II', prereqs: ['Diagnóstico clínico I'] },
+          { name: 'Bases y mecanismos de la salud y enfermedad III', prereqs: ['Bases y mecanismos de la salud y enfermedad II'] },
+          { name: 'Medicina interna I', prereqs: ['Diagnóstico clínico I','Bases y mecanismos de la salud y enfermedad II'] },
+          { name: 'Práctica integrada en medicina II', prereqs: ['Práctica integrada en medicina I'] }
+        ]
+      },
+      {
+        semestre: 7,
+        cursos: [
+          { name: 'Bioética clínica y antropología médica', prereqs: [] },
+          { name: 'Sistema nacional de salud V', prereqs: ['Sistema nacional de salud IV'] },
+          { name: 'Medicina legal', prereqs: [] },
+          { name: 'Métodos diagnósticos', prereqs: ['Diagnóstico clínico II'] },
+          { name: 'Medicina interna II', prereqs: ['Medicina interna I','Bases y mecanismos de la salud y enfermedad III'] },
+          { name: 'Práctica integrada en medicina III', prereqs: ['Práctica integrada en medicina II'] }
+        ]
+      },
+      {
+        semestre: 8,
+        cursos: [
+          { name: 'Oncología', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
+          { name: 'Nutrición', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
+          { name: 'Psicología', prereqs: [] },
+          { name: 'Neurología', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
+          { name: 'Práctica integrada en medicina IV', prereqs: ['Práctica integrada en medicina III'] },
+          { name: 'Responsabilidad social universitaria', prereqs: ['Ética y ciudadanía'] }
+        ]
+      },
+      {
+        semestre: 9,
+        cursos: [
+          { name: 'Gestión', prereqs: ['Sistema nacional de salud V'] },
+          { name: 'Ginecología y obstetricia', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
+          { name: 'Ortopedia y traumatología', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
+          { name: 'Fisiatría', prereqs: ['Psicología'] },
+          { name: 'Cirugía', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
+          { name: 'Práctica integrada en medicina V', prereqs: ['Práctica integrada en medicina IV'] }
+        ]
+      },
+      {
+        semestre: 10,
+        cursos: [
+          { name: 'Pediatría', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
+          { name: 'Oftalmología/ Otorrinolaringología/ Dermatología', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
+          { name: 'Medicina de urgencias', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
+          { name: 'Psiquiatría', prereqs: ['Métodos diagnósticos','Medicina interna II'] },
+          { name: 'Práctica integrada en medicina VI', prereqs: ['Práctica integrada en medicina V'] },
+          { name: 'Electivo II', prereqs: [] }
+        ]
+      },
+      {
+        semestre: 11,
+        cursos: [
+          { name: 'Internado I', prereqs: [
+              'Pediatría',
+              'Oftalmología/Otorrinolaringología/Dermatología',
+              'Medicina de urgencias',
+              'Psiquiatría',
+              'Práctica integrada en medicina VI',
+              'Electivo II'
+            ] }
+        ]
+      },
+      {
+        semestre: 12,
+        cursos: [
+          { name: 'Internado II', prereqs: ['Internado I'] }
+        ]
+      },
+      {
+        semestre: 13,
+        cursos: [
+          { name: 'Internado III', prereqs: ['Internado II'] }
+        ]
+      },
+      {
+        semestre: 14,
+        cursos: [
+          { name: 'Internado IV', prereqs: ['Internado III'] }
+        ]
+      }
     ];
+
+    // estado guardado en localStorage
     const estado = JSON.parse(localStorage.getItem('mallaEstado')) || {};
-    const saveEstado = () => localStorage.setItem('mallaEstado', JSON.stringify(estado));
-    const canAccess = course => course.prereqs.every(pr => estado[pr]);
+    const saveEstado = () => {
+      localStorage.setItem('mallaEstado', JSON.stringify(estado));
+    };
+    const canAccess = course =>
+      course.prereqs.every(pr => estado[pr]);
+
     function render() {
-      const container = document.getElementById('malla'); container.innerHTML = '';
-      malla.forEach((sem, idx) => {
-        const semDiv = document.createElement('div'); semDiv.className = 'semester';
-        semDiv.innerHTML = `<h2>Semestre ${sem.semestre}</h2>`;
-        const coursesDiv = document.createElement('div'); coursesDiv.className = 'courses';
+      const container = document.getElementById('malla');
+      container.innerHTML = '';
+      malla.forEach(sem => {
+        // tarjeta semestre
+        const semDiv = document.createElement('div');
+        semDiv.classList.add('semester-card');
+        // título
+        const title = document.createElement('h3');
+        title.textContent = `Semestre ${sem.semestre}`;
+        semDiv.appendChild(title);
+        // cursos
+        const coursesDiv = document.createElement('div');
+        coursesDiv.classList.add('courses');
         sem.cursos.forEach(course => {
-          const cDiv = document.createElement('div'); cDiv.textContent = course.name; cDiv.className = 'course';
-          if (estado[course.name]) cDiv.classList.add('passed');
-          if (!canAccess(course)) cDiv.classList.add('locked');
-          else cDiv.addEventListener('click', () => { estado[course.name] = !estado[course.name]; saveEstado(); render(); });
+          const cDiv = document.createElement('div');
+          cDiv.textContent = course.name;
+          cDiv.classList.add('course');
+          if (estado[course.name]) {
+            cDiv.classList.add('passed');
+          } else if (!canAccess(course)) {
+            cDiv.classList.add('locked');
+          } else {
+            cDiv.classList.add('unlocked');
+          }
+          if (canAccess(course)) {
+            cDiv.addEventListener('click', () => {
+              estado[course.name] = !estado[course.name];
+              saveEstado();
+              render();
+            });
+          }
           coursesDiv.appendChild(cDiv);
-        }); semDiv.appendChild(coursesDiv); container.appendChild(semDiv);
+        });
+        semDiv.appendChild(coursesDiv);
+        container.appendChild(semDiv);
       });
     }
+
     render();
   </script>
 </body>
