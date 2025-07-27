@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Malla Curricular Medicina UBO</title>
- <style>
+<style>
   body {
     margin: 0;
     font-family: sans-serif;
@@ -17,18 +17,17 @@
     padding: 20px 0;
   }
 
-  /* ------ GRID GENERAL ------ */
+  /* ----- GRID GENERAL (semestres) ----- */
   #malla {
     display: grid;
-    /* repite columnas de al menos 240px hasta llenar el ancho disponible */
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
     padding: 0 20px 40px;
   }
 
-  /* ------ CADA SEMESTRE ------ */
+  /* ----- CADA SEMESTRE ----- */
   .semester-card {
-    background: #ffffff;
+    background: #fff;
     border: 2px solid #c8a2c8;
     border-radius: 10px;
     display: flex;
@@ -43,11 +42,10 @@
     font-size: 1.1em;
   }
 
-  /* ------ LISTA DE CURSOS ------ */
+  /* ----- LISTA DE CURSOS (siempre vertical) ----- */
   .courses {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;        /* permite que los cursos salten a la siguiente “línea” dentro de su caja */
+    flex-direction: column; /* apila de arriba abajo */
     gap: 8px;
   }
   .course {
@@ -56,26 +54,17 @@
     text-align: center;
     font-size: 0.9em;
     cursor: pointer;
-    /* fuerza el salto de línea en nombres largos */
     word-break: break-word;
     white-space: normal;
     transition: opacity 0.2s, background-color 0.2s, text-decoration 0.2s;
   }
 
-  /* estilos según estado */
-  .course.locked {
-    opacity: 0.3;
-    cursor: default;
-  }
-  .course.passed {
-    text-decoration: line-through;
-    opacity: 0.6;
-  }
-  .course.unlocked {
-    opacity: 1;
-  }
+  /* ----- ESTADOS ----- */
+  .course.locked   { opacity: 0.3; cursor: default; }
+  .course.passed   { text-decoration: line-through; opacity: 0.6; }
+  .course.unlocked { opacity: 1; }
 
-  /* paleta pastel rosa→morado por semestre */
+  /* ----- PALETA PASTEL POR SEMESTRE ----- */
   .semester-card:nth-child(1)  .course { background: #ffd7e9; }
   .semester-card:nth-child(2)  .course { background: #ffe4f0; }
   .semester-card:nth-child(3)  .course { background: #fdeff8; }
@@ -91,7 +80,7 @@
   .semester-card:nth-child(13) .course { background: #b788d1; }
   .semester-card:nth-child(14) .course { background: #ad7acb; }
 
-  /* para pantallas móviles el grid se vuelve una columna */
+  /* ----- RESPONSIVE MÓVIL ----- */
   @media (max-width: 600px) {
     #malla {
       grid-template-columns: 1fr;
