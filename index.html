@@ -4,93 +4,100 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Malla Curricular Medicina UBO</title>
-  <style>
-    /* Reset básico */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Arial, sans-serif;
-      background: #f7f1f8;
-      color: #333;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 2em;
-      color: #4b235e;
-    }
-    /* Grid que envuelve columnas en varias filas */
+ <style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #f8f4f9;
+  }
+
+  h1 {
+    text-align: center;
+    color: #5e317c;
+    padding: 20px 0;
+  }
+
+  /* ------ GRID GENERAL ------ */
+  #malla {
+    display: grid;
+    /* repite columnas de al menos 240px hasta llenar el ancho disponible */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    padding: 0 20px 40px;
+  }
+
+  /* ------ CADA SEMESTRE ------ */
+  .semester-card {
+    background: #ffffff;
+    border: 2px solid #c8a2c8;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  .semester-card h3 {
+    margin: 0 0 10px;
+    text-align: center;
+    color: #5e317c;
+    font-size: 1.1em;
+  }
+
+  /* ------ LISTA DE CURSOS ------ */
+  .courses {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;        /* permite que los cursos salten a la siguiente “línea” dentro de su caja */
+    gap: 8px;
+  }
+  .course {
+    padding: 8px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9em;
+    cursor: pointer;
+    /* fuerza el salto de línea en nombres largos */
+    word-break: break-word;
+    white-space: normal;
+    transition: opacity 0.2s, background-color 0.2s, text-decoration 0.2s;
+  }
+
+  /* estilos según estado */
+  .course.locked {
+    opacity: 0.3;
+    cursor: default;
+  }
+  .course.passed {
+    text-decoration: line-through;
+    opacity: 0.6;
+  }
+  .course.unlocked {
+    opacity: 1;
+  }
+
+  /* paleta pastel rosa→morado por semestre */
+  .semester-card:nth-child(1)  .course { background: #ffd7e9; }
+  .semester-card:nth-child(2)  .course { background: #ffe4f0; }
+  .semester-card:nth-child(3)  .course { background: #fdeff8; }
+  .semester-card:nth-child(4)  .course { background: #f8e0f7; }
+  .semester-card:nth-child(5)  .course { background: #f4daf2; }
+  .semester-card:nth-child(6)  .course { background: #edd1ee; }
+  .semester-card:nth-child(7)  .course { background: #e7caea; }
+  .semester-card:nth-child(8)  .course { background: #e1c4e6; }
+  .semester-card:nth-child(9)  .course { background: #d9b5e0; }
+  .semester-card:nth-child(10) .course { background: #d0a6db; }
+  .semester-card:nth-child(11) .course { background: #c89cd8; }
+  .semester-card:nth-child(12) .course { background: #c294d5; }
+  .semester-card:nth-child(13) .course { background: #b788d1; }
+  .semester-card:nth-child(14) .course { background: #ad7acb; }
+
+  /* para pantallas móviles el grid se vuelve una columna */
+  @media (max-width: 600px) {
     #malla {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      width: 100%;
-    }
-    .semester {
-      background: #fff;
-      border: 2px solid #e0c3fc;
-      border-radius: 12px;
-      padding: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      display: flex;
-      flex-direction: column;
-    }
-    .semester h2 {
-      margin-bottom: 12px;
-      color: #4b235e;
-      font-size: 1.4em;
-      text-align: center;
-    }
-    /* Cursos: grid interno en cada semestre */
-    .courses {
-      display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
     }
-    @media (min-width: 600px) {
-      .courses {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (min-width: 900px) {
-      .courses {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-    .course {
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: center;
-      transition: transform 0.2s, box-shadow 0.2s;
-      user-select: none;
-      font-size: 0.95em;
-      white-space: normal;
-      overflow-wrap: break-word;
-    }
-    .course:not(.locked) { box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .course:not(.locked):hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    .course.locked { opacity: 0.5; cursor: default; }
-    .course.passed { text-decoration: line-through; opacity: 0.7; }
-    /* Colores pastel rosa/morado */
-    .course:nth-child(1)  { background: #f4c2c2; }
-    .course:nth-child(2)  { background: #f8c8dc; }
-    .course:nth-child(3)  { background: #fce1f0; }
-    .course:nth-child(4)  { background: #edd1f7; }
-    .course:nth-child(5)  { background: #e0b0ff; }
-    .course:nth-child(6)  { background: #d1c4e9; }
-    .course:nth-child(7)  { background: #ffd1dc; }
-    .course:nth-child(8)  { background: #f5e6fa; }
-    .course:nth-child(9)  { background: #e9c4f0; }
-    .course:nth-child(10) { background: #f7d1e0; }
-    .course:nth-child(11) { background: #e8c3fd; }
-    .course:nth-child(12) { background: #f1dafc; }
-    .course:nth-child(13) { background: #fbe7f0; }
-    .course:nth-child(14) { background: #e2b1e6; }
-  </style>
+  }
+</style>
 </head>
 <body>
   <h1>Malla Curricular Medicina UBO</h1>
